@@ -23,7 +23,23 @@ M1 Pro 上普通截图约 2 秒返回；密集文档页会更久，因为输出 
   （[安装说明](docs/server-setup.md)）
 - 启动器需要屏幕录制权限
 
-## 安装
+## 准备 Ollama 和模型
+
+```sh
+bash scripts/setup-ollama.sh
+```
+
+脚本会：安装 Ollama（缺少时用 Homebrew）、启动服务、拉取
+`longwayxu/xiaomi-ocr-0:bf16`（约 1.8 GB）。可重复执行，已安装时只做校验。
+需要换模型标签时：
+
+```sh
+XIAOMI_OCR_MODEL=longwayxu/xiaomi-ocr-0:bf16 bash scripts/setup-ollama.sh
+```
+
+然后按[安装说明](docs/server-setup.md)启动 demo server。
+
+## 安装扩展
 
 ```sh
 git clone https://github.com/GrowingPPP/tinycast-xiaomi-ocr.git

@@ -25,7 +25,23 @@ take longer because the model generates more tokens.
   ([setup guide](docs/server-setup.md))
 - Screen Recording permission for the launcher app
 
-## Install
+## Prepare Ollama and the model
+
+```sh
+bash scripts/setup-ollama.sh
+```
+
+The script installs Ollama with Homebrew when missing, starts the service, and
+pulls `longwayxu/xiaomi-ocr-0:bf16` (about 1.8 GB). It is idempotent; rerunning it
+only verifies the model. Override the tag with `XIAOMI_OCR_MODEL` if needed:
+
+```sh
+XIAOMI_OCR_MODEL=longwayxu/xiaomi-ocr-0:bf16 bash scripts/setup-ollama.sh
+```
+
+Then start the demo server described in the [setup guide](docs/server-setup.md).
+
+## Install the extension
 
 ```sh
 git clone https://github.com/GrowingPPP/tinycast-xiaomi-ocr.git

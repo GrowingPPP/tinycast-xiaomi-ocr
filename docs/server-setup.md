@@ -13,14 +13,27 @@ community BF16 GGUF package `longwayxu/xiaomi-ocr-0:bf16`.
 
 ## 1. Install Ollama and the model
 
+From the extension repository:
+
+```sh
+bash scripts/setup-ollama.sh
+```
+
+The script installs Ollama with Homebrew when needed, starts the service, pulls
+the model, and verifies that it appears in `ollama list`. It is safe to rerun.
+
+Manual equivalent:
+
 ```sh
 brew install ollama
 brew services start ollama
 ollama pull longwayxu/xiaomi-ocr-0:bf16
+ollama list
 ```
 
 The model is about 1.8 GB and runs on Metal. `ollama ps` shows roughly 2.1 GB while
-loaded.
+loaded. Downloads resume when interrupted; rerun `ollama pull` after a network
+failure. The first pull can take a while on a slow connection.
 
 ## 2. Get the runtime
 

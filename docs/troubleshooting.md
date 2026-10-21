@@ -14,6 +14,18 @@ curl -s http://127.0.0.1:8787/api/health
   `ollama ps` and `XIAOMI_OCR_MODEL`.
 - Wrong port: update the **OCR Server URL** preference.
 
+## `ollama pull` is slow or stalls
+
+The model is about 1.8 GB. Downloads resume, so rerun the same pull after a
+failure:
+
+```sh
+ollama pull longwayxu/xiaomi-ocr-0:bf16
+```
+
+Check progress with `ollama list` or by watching `~/.ollama/models`. A stalled
+connection usually recovers on the next attempt.
+
 ## The selection does not appear or the image is black
 
 Grant Screen Recording permission to the launcher app:

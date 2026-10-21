@@ -18,6 +18,11 @@ Ollama. The recognized Markdown is copied to the clipboard.
 Typical screenshots return in about 2 seconds on an M1 Pro. Dense document pages
 take longer because the model generates more tokens.
 
+A second command, **Check OCR Server Status**, reports whether the server is
+reachable, whether the model is ready, and which mode the server will use. The
+capture command runs the same check first, so a stopped server fails before the
+selection UI opens.
+
 ## Requirements
 
 - macOS with Tinycast (or Raycast)

@@ -2,7 +2,9 @@
 
 ## "无法连接本地 OCR 服务"
 
-The extension cannot reach the demo server.
+Run **Check OCR Server Status** first; it reports reachability, model state, and
+the mode the server will use. If that fails, the extension cannot reach the demo
+server.
 
 ```sh
 curl -s http://127.0.0.1:8787/api/health

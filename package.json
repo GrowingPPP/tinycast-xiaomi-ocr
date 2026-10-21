@@ -14,6 +14,12 @@
       "title": "OCR Screen Region",
       "description": "Select a screen region and copy the recognized Markdown",
       "mode": "no-view"
+    },
+    {
+      "name": "check-server",
+      "title": "Check OCR Server Status",
+      "description": "Verify the local OCR server and model are ready",
+      "mode": "no-view"
     }
   ],
   "preferences": [

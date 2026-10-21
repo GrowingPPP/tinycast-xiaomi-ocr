@@ -11,6 +11,7 @@ import {
   normalizeMaxTokens,
   normalizeServerUrl,
 } from "./lib";
+import { checkHealth } from "./server";
 
 const run = promisify(execFile);
 const CAPTURE_BIN = "/usr/sbin/screencapture";
@@ -50,6 +51,25 @@ export default async function Command(): Promise<void> {
   const serverUrl = normalizeServerUrl(preferences.serverUrl);
   const maxTokens = normalizeMaxTokens(preferences.maxTokens);
   const file = path.join(os.tmpdir(), `xiaomi-ocr-${Date.now()}.png`);
+
+  try {
+    const health = await checkHealth(serverUrl);
+    if (!health.ready) {
+      await showToast({
+        style: Toast.Style.Failure,
+        title: "OCR 服务未就绪",
+        message: health.error || "服务已响应，但模型未加载。检查 Ollama 和模型名。",
+      });
+      return;
+    }
+  } catch (error) {
+    await showToast({
+      style: Toast.Style.Failure,
+      title: "OCR 服务未就绪",
+      message: describeError(error, serverUrl),
+    });
+    return;
+  }
 
   if (!(await captureRegion(file))) {
     await showHUD("已取消");

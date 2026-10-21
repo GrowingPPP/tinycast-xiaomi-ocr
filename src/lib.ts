@@ -35,10 +35,31 @@ export function extractMarkdown(payload: unknown): string {
   return typeof content === "string" ? content.trim() : "";
 }
 
+export interface ServerHealth {
+  ready: boolean;
+  model: string;
+  error: string;
+  regionAvailable: boolean;
+}
+
+export function parseHealth(payload: unknown): ServerHealth {
+  const record = payload && typeof payload === "object" ? (payload as Record<string, unknown>) : {};
+  const region =
+    record.region && typeof record.region === "object"
+      ? (record.region as Record<string, unknown>)
+      : {};
+  return {
+    ready: record.ready === true,
+    model: typeof record.model === "string" ? record.model : "",
+    error: typeof record.error === "string" ? record.error : "",
+    regionAvailable: region.available === true,
+  };
+}
+
 export function describeError(error: unknown, serverUrl: string): string {
   const raw = error instanceof Error ? error.message : String(error);
   if (
-    /fetch failed|failed to fetch|could not connect|connection refused|econnrefused|network is down|socket/i.test(
+    /fetch failed|failed to fetch|could not connect|failed to connect|couldn't connect|connection refused|econnrefused|network is down|socket/i.test(
       raw,
     )
   ) {

@@ -8,6 +8,7 @@ import {
   extractMarkdown,
   normalizeMaxTokens,
   normalizeServerUrl,
+  parseHealth,
 } from "../src/lib";
 
 test("normalizeServerUrl falls back to the default", () => {
@@ -43,9 +44,40 @@ test("extractMarkdown returns trimmed content only", () => {
   assert.equal(extractMarkdown("text"), "");
 });
 
+test("parseHealth reads a ready server", () => {
+  const health = parseHealth({
+    ready: true,
+    model: "longwayxu/xiaomi-ocr-0:bf16",
+    error: "",
+    region: { available: false, missing: ["PaddlePaddle"] },
+  });
+  assert.deepEqual(health, {
+    ready: true,
+    model: "longwayxu/xiaomi-ocr-0:bf16",
+    error: "",
+    regionAvailable: false,
+  });
+});
+
+test("parseHealth treats malformed payloads as not ready", () => {
+  assert.deepEqual(parseHealth(null), {
+    ready: false,
+    model: "",
+    error: "",
+    regionAvailable: false,
+  });
+  assert.equal(parseHealth({ ready: "true" }).ready, false);
+  assert.equal(parseHealth({ region: { available: true } }).regionAvailable, true);
+});
+
 test("describeError explains connection failures", () => {
   const message = describeError(new Error("fetch failed"), "http://127.0.0.1:8787");
   assert.match(message, /无法连接本地 OCR 服务/);
+  const curlMessage = describeError(
+    new Error("curl: (7) Failed to connect to 127.0.0.1 port 8787"),
+    "http://127.0.0.1:8787",
+  );
+  assert.match(curlMessage, /无法连接本地 OCR 服务/);
 });
 
 test("describeError explains timeouts", () => {

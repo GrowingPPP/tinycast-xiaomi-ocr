@@ -19,18 +19,21 @@ const MANIFEST_KEYS = [
 await rm("build", { recursive: true, force: true });
 await mkdir("build", { recursive: true });
 
-await build({
-  entryPoints: ["src/ocr-screen.ts"],
-  bundle: true,
-  platform: "node",
-  format: "cjs",
-  target: "node18",
-  external: ["@raycast/api"],
-  outfile: "build/ocr-screen.js",
-  logLevel: "info",
-});
-
 const manifest = JSON.parse(await readFile("package.json", "utf8"));
+
+for (const command of manifest.commands ?? []) {
+  await build({
+    entryPoints: [`src/${command.name}.ts`],
+    bundle: true,
+    platform: "node",
+    format: "cjs",
+    target: "node18",
+    external: ["@raycast/api"],
+    outfile: `build/${command.name}.js`,
+    logLevel: "info",
+  });
+}
+
 const extensionManifest = Object.fromEntries(
   MANIFEST_KEYS.filter((key) => key in manifest).map((key) => [key, manifest[key]]),
 );

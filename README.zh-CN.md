@@ -66,6 +66,9 @@ npm run install:tinycast
 打开 Tinycast → Settings → Extensions，启用 **Xiaomi OCR Local**；再到 Settings →
 Shortcuts 绑定热键。
 
+如果改用界面手动安装：**Add from folder** 选 `build/` 目录，不要选仓库根目录。
+Tinycast 要求 `package.json` 和 `ocr-screen.js` 在同一层。
+
 使用 beta 版时，在安装命令前设置 `TINYCAST_BUNDLE_ID=com.tinycast.app.beta`。
 
 ## 偏好设置

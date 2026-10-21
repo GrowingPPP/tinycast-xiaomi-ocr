@@ -69,6 +69,10 @@ npm run install:tinycast
 Then open Tinycast → Settings → Extensions and enable **Xiaomi OCR Local**. Assign a
 hotkey in Settings → Shortcuts.
 
+To install through the UI instead, choose **Add from folder** and select the
+`build/` directory, not the repository root. Tinycast needs `package.json` and
+`ocr-screen.js` in the same folder.
+
 Set `TINYCAST_BUNDLE_ID=com.tinycast.app.beta` before `npm run install:tinycast` if
 you use the beta channel.
 

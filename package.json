@@ -4,7 +4,7 @@
   "title": "Xiaomi OCR Local",
   "description": "Recognize a screen region with Xiaomi-OCR-0 running locally through Ollama",
   "icon": "command-icon.png",
-  "author": "YOUR_GITHUB_USERNAME",
+  "author": "GrowingPPP",
   "license": "Apache-2.0",
   "categories": ["Productivity"],
   "platforms": ["macOS"],

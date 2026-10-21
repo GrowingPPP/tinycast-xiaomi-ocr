@@ -4,3 +4,6 @@ dist/
 xiaomi-ocr-local.zip
 .DS_Store
 *.log
+.build/
+pnpm-lock.yaml
+pnpm-workspace.yaml

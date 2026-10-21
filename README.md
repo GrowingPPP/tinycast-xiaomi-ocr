@@ -1,0 +1,95 @@
+# Xiaomi OCR Local
+
+A Tinycast extension that captures a screen region and recognizes it with
+[Xiaomi-OCR-0](https://github.com/SeerRay-Lab/Xiaomi-OCR-0) running locally through
+Ollama. The recognized Markdown is copied to the clipboard.
+
+[中文说明](README.zh-CN.md)
+
+[![CI](https://github.com/GrowingPPP/tinycast-xiaomi-ocr/actions/workflows/ci.yml/badge.svg)](https://github.com/GrowingPPP/tinycast-xiaomi-ocr/actions/workflows/ci.yml)
+
+## What it does
+
+1. Bind a global hotkey to **OCR Screen Region**.
+2. Press it and drag a selection anywhere on screen.
+3. The capture is sent to a local demo server running Xiaomi-OCR-0.
+4. The result, including Markdown tables and LaTeX formulas, lands in the clipboard.
+
+Typical screenshots return in about 2 seconds on an M1 Pro. Dense document pages
+take longer because the model generates more tokens.
+
+## Requirements
+
+- macOS with Tinycast (or Raycast)
+- A local Xiaomi-OCR-0 demo server on `http://127.0.0.1:8787`
+  ([setup guide](docs/server-setup.md))
+- Screen Recording permission for the launcher app
+
+## Install
+
+```sh
+git clone https://github.com/GrowingPPP/tinycast-xiaomi-ocr.git
+cd tinycast-xiaomi-ocr
+npm install
+npm run build
+npm run install:tinycast
+```
+
+Then open Tinycast → Settings → Extensions and enable **Xiaomi OCR Local**. Assign a
+hotkey in Settings → Shortcuts.
+
+Set `TINYCAST_BUNDLE_ID=com.tinycast.app.beta` before `npm run install:tinycast` if
+you use the beta channel.
+
+## Preferences
+
+| Preference | Default | Meaning |
+| --- | --- | --- |
+| OCR Server URL | `http://127.0.0.1:8787` | Address of the local demo server |
+| Max Output Tokens | `8192` | Lower is faster; dense pages need more |
+
+## How it works
+
+The extension is a standard Raycast-format extension. Its single `no-view` command
+runs `/usr/sbin/screencapture -i` to grab a region, posts the PNG to the demo
+server's `/api/ocr` endpoint, and copies the returned `content` field.
+
+It does not run the model itself and does not send anything to the network beyond
+the configured server URL.
+
+## Raycast compatibility
+
+The manifest and API usage match Raycast's extension format. Raycast users can run
+the project with the Raycast CLI (`npx ray develop`) after installing it, but only
+Tinycast is tested and supported here.
+
+## Limitations
+
+- Tinycast's HTTP layer times out after 60 seconds, so very dense pages can fail.
+- Only whole-image mode is used. Upstream region mode needs PaddlePaddle, PaddleX,
+  and PP-DocLayoutV3, which are not installed by this project.
+- The Ollama backend and the community BF16 GGUF package are marked experimental
+  upstream. Accuracy is not guaranteed to match the authors' benchmark numbers.
+
+More in [troubleshooting](docs/troubleshooting.md).
+
+## Development
+
+```sh
+npm run typecheck
+npm test
+npm run build
+```
+
+`npm run package` produces `xiaomi-ocr-local.zip` with the built extension files.
+
+## Acknowledgements
+
+- [Xiaomi-OCR-0](https://github.com/SeerRay-Lab/Xiaomi-OCR-0) by SeerRay-Lab
+  (Apache-2.0)
+- [Tinycast](https://tinycast.dev/) by abue-ammar
+- The community Ollama package `longwayxu/xiaomi-ocr-0:bf16`
+
+## License
+
+Apache-2.0. See [LICENSE](LICENSE).

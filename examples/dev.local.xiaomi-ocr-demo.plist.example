@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>dev.local.xiaomi-ocr-demo</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/Users/CHANGE_ME/Developer/Xiaomi-OCR-0/.venv/bin/python</string>
+    <string>/Users/CHANGE_ME/Developer/Xiaomi-OCR-0/demo/server.py</string>
+    <string>--port</string>
+    <string>8787</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>/Users/CHANGE_ME/Developer/Xiaomi-OCR-0</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>XIAOMI_OCR_BACKEND</key>
+    <string>ollama</string>
+    <key>XIAOMI_OCR_MODEL</key>
+    <string>longwayxu/xiaomi-ocr-0:bf16</string>
+    <key>XIAOMI_OCR_LOCAL_URL</key>
+    <string>http://127.0.0.1:11434/v1</string>
+  </dict>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+  <key>StandardOutPath</key>
+  <string>/Users/CHANGE_ME/Library/Logs/xiaomi-ocr-demo.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/CHANGE_ME/Library/Logs/xiaomi-ocr-demo.log</string>
+</dict>
+</plist>

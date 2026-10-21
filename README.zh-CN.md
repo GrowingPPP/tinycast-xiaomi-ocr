@@ -1,0 +1,90 @@
+# Xiaomi OCR Local
+
+Tinycast 扩展：框选屏幕区域，交给本地运行的
+[Xiaomi-OCR-0](https://github.com/SeerRay-Lab/Xiaomi-OCR-0) 识别，结果直接写入剪贴板。
+
+[English](README.md)
+
+[![CI](https://github.com/GrowingPPP/tinycast-xiaomi-ocr/actions/workflows/ci.yml/badge.svg)](https://github.com/GrowingPPP/tinycast-xiaomi-ocr/actions/workflows/ci.yml)
+
+## 功能
+
+1. 给 **OCR Screen Region** 绑定全局热键。
+2. 按下后拖选屏幕区域。
+3. 截图发送到本机 Xiaomi-OCR-0 demo server。
+4. 识别结果（含 Markdown 表格和 LaTeX 公式）进入剪贴板。
+
+M1 Pro 上普通截图约 2 秒返回；密集文档页会更久，因为输出 token 更多。
+
+## 环境要求
+
+- macOS + Tinycast（或 Raycast）
+- 本地 Xiaomi-OCR-0 demo server，监听 `http://127.0.0.1:8787`
+  （[安装说明](docs/server-setup.md)）
+- 启动器需要屏幕录制权限
+
+## 安装
+
+```sh
+git clone https://github.com/GrowingPPP/tinycast-xiaomi-ocr.git
+cd tinycast-xiaomi-ocr
+npm install
+npm run build
+npm run install:tinycast
+```
+
+打开 Tinycast → Settings → Extensions，启用 **Xiaomi OCR Local**；再到 Settings →
+Shortcuts 绑定热键。
+
+使用 beta 版时，在安装命令前设置 `TINYCAST_BUNDLE_ID=com.tinycast.app.beta`。
+
+## 偏好设置
+
+| 偏好 | 默认值 | 说明 |
+| --- | --- | --- |
+| OCR Server URL | `http://127.0.0.1:8787` | 本地 demo server 地址 |
+| Max Output Tokens | `8192` | 越小越快，密集页面需要更大 |
+
+## 工作原理
+
+标准 Raycast 格式扩展。唯一的 `no-view` 命令调用
+`/usr/sbin/screencapture -i` 截取区域，把 PNG 发到 demo server 的 `/api/ocr`，
+再把返回的 `content` 写入剪贴板。
+
+扩展本身不跑模型，除配置的 server 地址外不向网络发送任何内容。
+
+## Raycast 兼容性
+
+manifest 和 API 用法符合 Raycast 扩展格式。Raycast 用户可以安装 Raycast CLI 后用
+`npx ray develop` 运行，但本项目只在 Tinycast 上测试和支持。
+
+## 限制
+
+- Tinycast 的 HTTP 层 60 秒超时，非常密集的页面可能失败。
+- 只用整页识别模式。上游的区域模式需要 PaddlePaddle、PaddleX 和
+  PP-DocLayoutV3，本项目不安装。
+- Ollama 后端和社区 BF16 GGUF 包在上游标记为 experimental，准确率不保证与
+  官方 benchmark 一致。
+
+更多见[故障排查](docs/troubleshooting.md)。
+
+## 开发
+
+```sh
+npm run typecheck
+npm test
+npm run build
+```
+
+`npm run package` 会生成包含构建产物的 `xiaomi-ocr-local.zip`。
+
+## 致谢
+
+- [Xiaomi-OCR-0](https://github.com/SeerRay-Lab/Xiaomi-OCR-0)，SeerRay-Lab，
+  Apache-2.0
+- [Tinycast](https://tinycast.dev/)，abue-ammar
+- 社区 Ollama 包 `longwayxu/xiaomi-ocr-0:bf16`
+
+## 许可证
+
+Apache-2.0，见 [LICENSE](LICENSE)。

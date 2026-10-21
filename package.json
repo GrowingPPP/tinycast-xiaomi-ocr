@@ -1,0 +1,64 @@
+{
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "xiaomi-ocr-local",
+  "title": "Xiaomi OCR Local",
+  "description": "Recognize a screen region with Xiaomi-OCR-0 running locally through Ollama",
+  "icon": "command-icon.png",
+  "author": "YOUR_GITHUB_USERNAME",
+  "license": "Apache-2.0",
+  "categories": ["Productivity"],
+  "platforms": ["macOS"],
+  "commands": [
+    {
+      "name": "ocr-screen",
+      "title": "OCR Screen Region",
+      "description": "Select a screen region and copy the recognized Markdown",
+      "mode": "no-view"
+    }
+  ],
+  "preferences": [
+    {
+      "name": "serverUrl",
+      "title": "OCR Server URL",
+      "description": "Address of the local Xiaomi-OCR demo server",
+      "type": "textfield",
+      "required": false,
+      "default": "http://127.0.0.1:8787"
+    },
+    {
+      "name": "maxTokens",
+      "title": "Max Output Tokens",
+      "description": "Lower values finish faster; dense pages need more",
+      "type": "dropdown",
+      "required": false,
+      "default": "8192",
+      "data": [
+        {
+          "title": "4096",
+          "value": "4096"
+        },
+        {
+          "title": "8192",
+          "value": "8192"
+        }
+      ]
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "^1.104.12"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "esbuild": "^0.28.2",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "package": "npm run build && cd build && zip -qr ../xiaomi-ocr-local.zip .",
+    "install:tinycast": "bash scripts/install-tinycast.sh",
+    "uninstall:tinycast": "bash scripts/uninstall-tinycast.sh"
+  }
+}

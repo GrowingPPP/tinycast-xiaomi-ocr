@@ -1,5 +1,5 @@
 import { build } from "esbuild";
-import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { access, cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 
 const MANIFEST_KEYS = [
   "$schema",
@@ -22,13 +22,18 @@ await mkdir("build", { recursive: true });
 const manifest = JSON.parse(await readFile("package.json", "utf8"));
 
 for (const command of manifest.commands ?? []) {
+  const tsxEntry = `src/${command.name}.tsx`;
+  const entry = await access(tsxEntry).then(
+    () => tsxEntry,
+    () => `src/${command.name}.ts`,
+  );
   await build({
-    entryPoints: [`src/${command.name}.ts`],
+    entryPoints: [entry],
     bundle: true,
     platform: "node",
     format: "cjs",
     target: "node18",
-    external: ["@raycast/api"],
+    external: ["@raycast/api", "react", "react/jsx-runtime"],
     outfile: `build/${command.name}.js`,
     logLevel: "info",
   });

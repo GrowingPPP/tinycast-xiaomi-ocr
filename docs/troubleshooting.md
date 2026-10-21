@@ -2,9 +2,9 @@
 
 ## "无法连接本地 OCR 服务"
 
-Run **Check OCR Server Status** first; it reports reachability, model state, and
-the mode the server will use. If that fails, the extension cannot reach the demo
-server.
+Open **Check OCR Server Status**, confirm the URL, and press **Check Connection**.
+The panel shows **Ready** or **Not ready**, plus the model, mode, or error. If it
+is not ready, the extension cannot reach the demo server.
 
 ```sh
 curl -s http://127.0.0.1:8787/api/health

@@ -6,8 +6,12 @@
   "icon": "command-icon.png",
   "author": "GrowingPPP",
   "license": "Apache-2.0",
-  "categories": ["Productivity"],
-  "platforms": ["macOS"],
+  "categories": [
+    "Productivity"
+  ],
+  "platforms": [
+    "macOS"
+  ],
   "commands": [
     {
       "name": "ocr-screen",
@@ -18,8 +22,8 @@
     {
       "name": "check-server",
       "title": "Check OCR Server Status",
-      "description": "Verify the local OCR server and model are ready",
-      "mode": "no-view"
+      "description": "Check the local OCR server and show Ready or Not ready",
+      "mode": "view"
     }
   ],
   "preferences": [
@@ -55,6 +59,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
+    "@types/react": "^19.3.0",
     "esbuild": "^0.28.2",
     "tsx": "^4.19.0",
     "typescript": "^5.6.0"

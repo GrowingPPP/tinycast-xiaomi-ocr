@@ -16,8 +16,9 @@ Tinycast 扩展：框选屏幕区域，交给本地运行的
 
 M1 Pro 上普通截图约 2 秒返回；密集文档页会更久，因为输出 token 更多。
 
-另有 **Check OCR Server Status** 命令，显示服务是否可达、模型是否就绪，以及服务
-使用的模式。截图命令会先做同样的检查，服务未启动时不会先弹出框选界面。
+另有 **Check OCR Server Status** 命令：打开一个面板，显示 server URL、
+**Check Connection** 按钮，点一下内联显示 **Ready** / **Not ready**，并给出模型和
+模式。截图命令会先做同样的检查，服务未启动时不会先弹出框选界面。
 
 ## 环境要求
 

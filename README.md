@@ -39,7 +39,22 @@ only verifies the model. Override the tag with `XIAOMI_OCR_MODEL` if needed:
 XIAOMI_OCR_MODEL=longwayxu/xiaomi-ocr-0:bf16 bash scripts/setup-ollama.sh
 ```
 
-Then start the demo server described in the [setup guide](docs/server-setup.md).
+## Set up the demo server
+
+```sh
+bash scripts/setup-server.sh
+```
+
+This clones the upstream runtime to `~/Developer/Xiaomi-OCR-0`, creates its
+virtual environment, installs dependencies, writes a launchd plist, and waits for
+`/api/health`. Options:
+
+```sh
+bash scripts/setup-server.sh --dir ~/Developer/Xiaomi-OCR-0 --port 8787
+bash scripts/setup-server.sh --no-launchd
+```
+
+The [manual steps](docs/server-setup.md) remain available.
 
 ## Install the extension
 

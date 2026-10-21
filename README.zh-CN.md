@@ -37,7 +37,21 @@ bash scripts/setup-ollama.sh
 XIAOMI_OCR_MODEL=longwayxu/xiaomi-ocr-0:bf16 bash scripts/setup-ollama.sh
 ```
 
-然后按[安装说明](docs/server-setup.md)启动 demo server。
+## 部署 demo server
+
+```sh
+bash scripts/setup-server.sh
+```
+
+脚本会：克隆上游到 `~/Developer/Xiaomi-OCR-0`、创建 venv、安装依赖、写入 launchd
+plist，并等待 `/api/health` 就绪。可用参数：
+
+```sh
+bash scripts/setup-server.sh --dir ~/Developer/Xiaomi-OCR-0 --port 8787
+bash scripts/setup-server.sh --no-launchd
+```
+
+也可以按[手动步骤](docs/server-setup.md)操作。
 
 ## 安装扩展
 

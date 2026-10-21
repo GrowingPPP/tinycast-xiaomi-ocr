@@ -11,6 +11,30 @@ community BF16 GGUF package `longwayxu/xiaomi-ocr-0:bf16`.
 > preprocessing, and decoding settings as the demo, but accuracy is not guaranteed
 > to match the published benchmark numbers.
 
+## Automated setup
+
+From the extension repository:
+
+```sh
+bash scripts/setup-server.sh
+```
+
+The script checks the upstream checkout (cloning it when missing), creates its
+virtual environment, installs dependencies, writes a launchd plist, and waits for
+the health endpoint. Options:
+
+| Flag | Default | Meaning |
+| --- | --- | --- |
+| `--dir PATH` | `~/Developer/Xiaomi-OCR-0` | Upstream checkout location |
+| `--port PORT` | `8787` | Demo server port |
+| `--no-launchd` | off | Prepare files only; print the manual start command |
+
+It does not download the model. Run `scripts/setup-ollama.sh` first. Rerunning the
+script is safe: the existing checkout and venv are reused, and the launchd job is
+replaced.
+
+The rest of this page describes the manual steps.
+
 ## 1. Install Ollama and the model
 
 From the extension repository:
@@ -69,7 +93,9 @@ region mode.
 
 ## 4. Keep it running
 
-Use the launchd template in `examples/dev.local.xiaomi-ocr-demo.plist.example`.
+`scripts/setup-server.sh` writes and loads this plist automatically. For a manual
+installation, start from the template in
+`examples/dev.local.xiaomi-ocr-demo.plist.example`.
 Copy it to `~/Library/LaunchAgents/`, replace the placeholder paths, then:
 
 ```sh

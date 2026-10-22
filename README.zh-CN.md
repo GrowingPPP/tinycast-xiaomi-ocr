@@ -90,6 +90,22 @@ Tinycast 要求 `package.json` 和 `ocr-screen.js` 在同一层。
 
 扩展本身不跑模型，除配置的 server 地址外不向网络发送任何内容。
 
+## 文档模式
+
+上游 Xiaomi-OCR-0 有两种模式：
+
+| 模式 | 行为 | 适用 |
+| --- | --- | --- |
+| `page` | 整张图直接交给模型 | 截图、手写、书法、不规则版式、场景文字 |
+| `region` | 用 PP-DocLayoutV3 检测版面，裁剪后并发识别各区域 | 印刷体、规整文档；阅读顺序和表格更稳 |
+
+本扩展固定使用 `page`：只调用 `/api/ocr`，不会调用 `/api/parse/regions`。这是
+针对截图和混合内容的取舍，也意味着扩展里无法选择 region 模式。
+
+即使服务端装了区域依赖，状态面板仍可能显示 `page mode`。region 模式还要求服务端
+安装 PaddlePaddle、PaddleX 和 PP-DocLayoutV3；setup 脚本不安装这些依赖。缺少时
+服务返回 `region.available: false`。
+
 ## Raycast 兼容性
 
 manifest 和 API 用法符合 Raycast 扩展格式。Raycast 用户可以安装 Raycast CLI 后用

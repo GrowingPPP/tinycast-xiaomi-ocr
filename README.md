@@ -97,6 +97,24 @@ server's `/api/ocr` endpoint, and copies the returned `content` field.
 It does not run the model itself and does not send anything to the network beyond
 the configured server URL.
 
+## Document modes
+
+Upstream Xiaomi-OCR-0 has two modes:
+
+| Mode | What it does | Best for |
+| --- | --- | --- |
+| `page` | Sends the whole image to the model | Screenshots, handwriting, calligraphy, irregular layouts, scene text |
+| `region` | Detects layout regions with PP-DocLayoutV3, crops them, and recognizes regions concurrently | Printed, regular documents; keeps reading order and tables |
+
+This extension always uses `page`: it posts to `/api/ocr` and never calls
+`/api/parse/regions`. That is deliberate for screenshots and mixed content, and it
+means region mode cannot be selected from the extension.
+
+The status panel may show `page mode` even when the server has region dependencies
+installed. Region mode also requires PaddlePaddle, PaddleX, and PP-DocLayoutV3 on
+the server; the setup scripts do not install them. Without those dependencies the
+server reports `region.available: false`.
+
 ## Raycast compatibility
 
 The manifest and API usage match Raycast's extension format. Raycast users can run
